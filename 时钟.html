@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      option {
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <select id="year-select">
+      <option value="2000">2000</option>
+      <option value="2001">2001</option>
+      <option value="2002">2002</option>
+      ……
+      <option value="2032">2002</option>
+    </select>
+
+    <select id="month-select">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      ……
+      <option value="12">12</option>
+    </select>
+
+    <select id="day-select">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      ……
+      <option value="31">31</option>
+    </select>
+
+    <select id="hour-select">
+      <option value="0">00</option>
+      <option value="1">01</option>
+      ……
+      <option value="23">23</option>
+    </select>
+
+    <select id="minite-select">
+      <option value="0">0</option>
+      <option value="1">1</option>
+      ……
+      <option>59</option>
+    </select>
+
+    <select id="second-select">
+      <option value="0">0</option>
+      <option value="1">1</option>
+      ……
+      <option>59</option>
+    </select>
+
+    <p id="result-wrapper">
+      所选时间距离 此时此刻 还有 X 天 X 小时 X 分 X 秒
+    </p>
+    <script>
+      handler = (start, end, elemet) => {
+        let html = null;
+        for (var i = start; i < end + 1; i++) {
+          html += `<option value=${i}>${i}</option>`;
+        }
+        elemet.innerHTML = html;
+        html = null;
+      };
+      let year = document.querySelector("#year-select"),
+        month = document.querySelector("#month-select"),
+        day = document.querySelector("#day-select"),
+        hour = document.querySelector("#hour-select"),
+        minite = document.querySelector("#minite-select"),
+        second = document.querySelector("#second-select");
+      handler(2000, 2020, year);
+      handler(1, 12, month);
+      handler(1, 30, day);
+      handler(0, 23, hour);
+      handler(0, 59, minite);
+      handler(0, 59, second);
+      let select = document.getElementsByTagName("select"),
+        p = document.querySelector("p");
+      //   console.log(select);
+      for (let i = 0; i < select.length; i++) {
+        select[i].onchange = () => {
+          update();
+        };
+      }
+      setInterval(update, 1000);
+      function update() {
+        //new一个具体时间的Date对象new Date( year, month, date, hrs, min, sec)
+        let chooseDate = new Date(
+          select[0].value,
+          select[1].value - 1,
+          select[2].value,
+          select[3].value,
+          select[4].value,
+          select[5].value
+        );
+        // console.log(chooseDate);
+        let nowDate = new Date();
+        totalSec = parseInt((nowDate - chooseDate) / 1000);
+        // console.log(totalSec);
+        if (totalSec > 0) {
+          let showDay = parseInt(totalSec / (3600 * 24)),
+            showHour = parseInt((totalSec % (3600 * 24)) / 3600),
+            showMinute = parseInt(((totalSec % (3600 * 24)) % 3600) / 60),
+            showSeconds = parseInt(totalSec % 60);
+          p.innerHTML = `所选时间距离 此时此刻 已经过去 ${showDay}天 ${showHour} 小时 ${showMinute} 分 ${showSeconds} 秒`;
+        } else {
+          let showDay = -parseInt(totalSec / (3600 * 24)),
+            showHour = -parseInt((totalSec % (3600 * 24)) / 3600),
+            showMinute = -parseInt(((totalSec % (3600 * 24)) % 3600) / 60),
+            showSeconds = -parseInt(totalSec % 60);
+          p.innerHTML = `所选时间距离 此时此刻 还有 ${showDay}天 ${showHour} 小时 ${showMinute} 分 ${showSeconds} 秒`;
+        }
+      }
+    </script>
+  </body>
+</html>
