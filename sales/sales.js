@@ -46,19 +46,6 @@ let sourceData = [
   }
 ];
 
-//表头渲染 +一个空的tbody
-function headRender(epTable) {
-  let head = $("<thead></thead>");
-  let tbody = $("<tbody></tbody>");
-  epTable.append(head);
-  epTable.append(tbody);
-  let html = "<tr><th>商品</th><th>地区</th>";
-  for (let i = 0; i < 12; i++) {
-    html += `<th>${i + 1}月</th>`;
-  }
-  html += "</tr>";
-  head.html(html);
-}
 headRender($(".table1"));
 headRender($(".table2"));
 
@@ -75,6 +62,20 @@ $("#goods-select").change(function() {
   //   console.log(region, goods);
   render(region, goods);
 });
+
+//表头渲染 +一个空的tbody
+function headRender(epTable) {
+  let head = $("<thead></thead>");
+  let tbody = $("<tbody></tbody>");
+  epTable.append(head);
+  epTable.append(tbody);
+  let html = "<tr><th>商品</th><th>地区</th>";
+  for (let i = 0; i < 12; i++) {
+    html += `<th>${i + 1}月</th>`;
+  }
+  html += "</tr>";
+  head.html(html);
+}
 
 //数据渲染  tbody
 function render(region, goods) {
@@ -99,11 +100,7 @@ function render(region, goods) {
     let html = "";
     for (let i = 0; i < sourceData.length; i++) {
       if (sourceData[i].region == region && sourceData[i].product == goods) {
-        html += `<tr><td>${sourceData[i].product}</td><td>${sourceData[i].region}</td>`;
-        for (let j = 0; j < sourceData[i].sale.length; j++) {
-          html += `<td>${sourceData[i].sale[j]}</td>`;
-        }
-        html += `</tr>`;
+        html = concat(html, i);
         tbody2.html(html);
       }
     }
@@ -119,4 +116,5 @@ function concat(html, i) {
     html += `<td>${sourceData[i].sale[j]}</td>`;
   }
   html += `</tr>`;
+  return html;
 }
