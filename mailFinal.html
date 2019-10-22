@@ -52,18 +52,13 @@
         valDown = input.value;
       };
       input.onkeyup = e => {
-        // console.log(e.keyCode);
         valUp = input.value;
-        // console.log(valDown);
         // console.log(valUp);
-        if (valDown != valUp) {
-          mailTips.style.display = "block";
-          let html = `<div>${valUp}@${data[0]}</div>`; //在循环之前已经执行了一次,为啥子
-          for (let i = 1; i < data.length; i++) {
-            html += `<div>${valUp}@${data[i]}</div>`;
-          }
-          mailTips.innerHTML = html;
-          mailTips.querySelectorAll("div")[0].className = "current";
+        if (valUp.indexOf("@") == -1) {
+          addList(valUp);
+        } else {
+          let str = valUp.split("@")[0];
+          addList(str);
         }
       };
       document.onkeyup = e => {
@@ -105,19 +100,38 @@
         index = 0;
       };
       mailTips.onmousedown = e => {
-        // console.log(e.target);
-        // console.log(e);
-        // console.log(valUp);
         input.value = e.target.innerText;
       };
       mailTips.onmouseover = e => {
-        console.log(e.target);
+        // console.log(e.target);
         let divs = mailTips.querySelectorAll("div");
         for (let i = 0; i < data.length; i++) {
           divs[i].className = "";
         }
         e.target.className = "current";
       };
+      //邮箱格式校验
+      // function judge(txt) {
+      //   let reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,3})$/;
+      //   var flag = reg.test(txt);
+      //   console.log(flag);
+      //   let arr = txt.split("@");
+      //   console.log(arr);
+      // }
+      // let str = "heiheihei@qq.com";
+      // judge(str);
+
+      //获取输入值生成列表
+      function addList(val) {
+        mailTips.style.display = "block";
+        let html = `<div>${val}@${data[0]}</div>`; //在循环之前已经执行了一次,为啥子
+        for (let i = 1; i < data.length; i++) {
+          html += `<div>${val}@${data[i]}</div>`;
+        }
+        mailTips.innerHTML = html;
+        mailTips.querySelectorAll("div")[0].className = "current";
+      }
+      //
     </script>
   </body>
 </html>
