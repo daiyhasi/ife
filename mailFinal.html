@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      .box {
+        width: 250px;
+      }
+      input {
+        width: 100%;
+        height: 42px;
+        line-height: 42px;
+        text-indent: 10px;
+        background-color: lime;
+        border: none;
+        outline: none;
+        font-size: 18px;
+        font-weight: lighter;
+      }
+      #mail-tips {
+        width: 100%;
+        /* display: none; */
+      }
+      #mail-tips div {
+        width: 100%;
+        height: 36px;
+        line-height: 36px;
+        text-indent: 10px;
+        background-color: hotpink;
+      }
+      #mail-tips div.current {
+        background-color: aqua;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box">
+      <input type="text" id="mail" />
+      <div id="mail-tips"></div>
+    </div>
+    <script>
+      let input = document.querySelector("#mail"),
+        mailTips = document.querySelector("#mail-tips"),
+        data = ["163.com", "gmail.com", "126.com", "qq.com", "263.net"],
+        index = 0,
+        valDown = null;
+      input.onkeydown = function() {
+        valDown = input.value;
+      };
+      input.onkeyup = function(e) {
+        // console.log(e.keyCode);
+        let valUp = input.value;
+        // console.log(valDown);
+        // console.log(valUp);
+        if (valDown != valUp) {
+          mailTips.style.display = "block";
+          let html = `<div>${valUp}@${data[0]}</div>`; //在循环之前已经执行了一次,为啥子
+          for (let i = 1; i < data.length; i++) {
+            html += `<div>${valUp}@${data[i]}</div>`;
+          }
+          mailTips.innerHTML = html;
+          mailTips.querySelectorAll("div")[0].className = "current";
+        }
+      };
+      document.onkeyup = function(e) {
+        let divs = mailTips.querySelectorAll("div"),
+          flag = mailTips.style.display == "block";
+        // console.log(e.keyCode);
+        let code = e.keyCode;
+        if ((flag && code == 38) || flag & (code == 40)) {
+          // console.log(1);
+          switch (code) {
+            case 40:
+              index++;
+              index = Math.min(4, index);
+              break;
+            case 38:
+              index--;
+              index = Math.max(0, index);
+              break;
+            default:
+              break;
+          }
+          input.value = divs[index].innerText;
+          input.style.color = "red";
+          for (let i = 0; i < data.length; i++) {
+            divs[i].className = "";
+          }
+          divs[index].className = "current";
+        }
+        if (flag && code == 13) {
+          input.style.color = "black";
+          mailTips.style.display = "none";
+          index = 0;
+          // console.log(index);
+        }
+      };
+    </script>
+  </body>
+</html>

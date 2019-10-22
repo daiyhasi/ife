@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      .box {
+        width: 250px;
+      }
+      input {
+        width: 100%;
+        height: 42px;
+        line-height: 42px;
+        text-indent: 10px;
+        background-color: lime;
+        border: none;
+        outline: none;
+        font-size: 18px;
+        font-weight: lighter;
+      }
+      #mail-tips {
+        width: 100%;
+        /* display: none; */
+      }
+      #mail-tips div {
+        width: 100%;
+        height: 36px;
+        line-height: 36px;
+        text-indent: 10px;
+        background-color: hotpink;
+      }
+      #mail-tips div.current {
+        background-color: aqua;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box">
+      <input type="text" id="mail" />
+      <div id="mail-tips"></div>
+    </div>
+    <script>
+      let input = document.querySelector("#mail"),
+        mailTips = document.querySelector("#mail-tips"),
+        data = ["163.com", "gmail.com", "126.com", "qq.com", "263.net"];
+      input.onfocus = () => {
+        if (input.value == "") {
+          mailTips.style.display = "none";
+        } else {
+          mailTips.style.display = "block";
+        }
+      };
+
+      //
+      var index = 0;
+      //   //获取未按下键时的input框的值
+      //   var oldInputVal = input.value;
+      input.onkeyup = e => {
+        mailTips.style.display = "block";
+        let val = input.value;
+        // console.log(val);
+        let html = `<div>${val}@${data[0]}</div>`;
+        for (let i = 1; i < data.length; i++) {
+          html += `<div>${val}@${data[i]}</div>`;
+        }
+        mailTips.innerHTML = html;
+        html = null;
+        var tipDivs = mailTips.querySelectorAll("div");
+        // console.log(tipDivs);
+        tipDivs[index].className = "current";
+        let tmp = null;
+        // //输入有效值改变输入框内容时更新oldInputVal
+        // if (input.value != oldInputVal) {
+        //   oldInputVal = input.value;
+        // }
+        // console.log(input.value);
+        document.onkeydown = e => {
+          //   console.log(e.keyCode);
+          let code = e.keyCode;
+          switch (code) {
+            case 40:
+              index++;
+              input.value = "";
+              if (index >= 4) {
+                index = 4;
+              }
+              tipDivs.forEach(element => {
+                element.className = "";
+              });
+              tipDivs[index].className = "current";
+              //   console.log(input.value);
+              document.onkeyup = () => {
+                input.value = tipDivs[index].innerText;
+              };
+              //   console.log(tipDivs[index].innerText);
+              break;
+            case 38:
+              index--;
+              if (index <= 0) {
+                index = 0;
+              }
+              tipDivs.forEach(element => {
+                element.className = "";
+              });
+              tipDivs[index].className = "current";
+              document.onkeyup = () => {
+                input.value = tipDivs[index].innerText;
+              };
+              break;
+            case 13:
+              console.log(tipDivs[index]);
+              document.onkeydown = () => {
+                tmp = tipDivs[index].value;
+                console.log(tmp);
+                input.value = tmp;
+              };
+              break;
+            default:
+              break;
+          }
+        };
+      };
+      //   input.onblur = () => {
+      //     mailTips.style.display = "none";
+      //   };
+    </script>
+  </body>
+</html>
