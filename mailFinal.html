@@ -42,6 +42,7 @@
       <div id="mail-tips"></div>
     </div>
     <script>
+      // console.log(null + `<div>222</div>`);
       let input = document.querySelector("#mail"),
         mailTips = document.querySelector("#mail-tips"),
         data = ["163.com", "gmail.com", "126.com", "qq.com", "263.net"],
@@ -124,13 +125,14 @@
       //获取输入值生成列表
       function addList(val) {
         mailTips.style.display = "block";
-        let html = `<div>${val}@${data[0]}</div>`; //在循环之前已经执行了一次,为啥子
-        for (let i = 1; i < data.length; i++) {
+        let html = ""; //在循环之前已经执行了一次,为啥子  结果不是执行了一次,而是把null当一个字符串拼接进去了
+        for (let i = 0; i < data.length; i++) {
           html += `<div>${val}@${data[i]}</div>`;
         }
         mailTips.innerHTML = html;
         mailTips.querySelectorAll("div")[0].className = "current";
       }
+
       //
     </script>
   </body>
