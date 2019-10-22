@@ -46,13 +46,14 @@
         mailTips = document.querySelector("#mail-tips"),
         data = ["163.com", "gmail.com", "126.com", "qq.com", "263.net"],
         index = 0,
-        valDown = null;
-      input.onkeydown = function() {
+        valDown = null,
+        valUp = null;
+      input.onkeydown = () => {
         valDown = input.value;
       };
-      input.onkeyup = function(e) {
+      input.onkeyup = e => {
         // console.log(e.keyCode);
-        let valUp = input.value;
+        valUp = input.value;
         // console.log(valDown);
         // console.log(valUp);
         if (valDown != valUp) {
@@ -65,7 +66,7 @@
           mailTips.querySelectorAll("div")[0].className = "current";
         }
       };
-      document.onkeyup = function(e) {
+      document.onkeyup = e => {
         let divs = mailTips.querySelectorAll("div"),
           flag = mailTips.style.display == "block";
         // console.log(e.keyCode);
@@ -97,6 +98,25 @@
           index = 0;
           // console.log(index);
         }
+      };
+      input.onblur = () => {
+        input.style.color = "black";
+        mailTips.style.display = "none";
+        index = 0;
+      };
+      mailTips.onmousedown = e => {
+        // console.log(e.target);
+        // console.log(e);
+        // console.log(valUp);
+        input.value = e.target.innerText;
+      };
+      mailTips.onmouseover = e => {
+        console.log(e.target);
+        let divs = mailTips.querySelectorAll("div");
+        for (let i = 0; i < data.length; i++) {
+          divs[i].className = "";
+        }
+        e.target.className = "current";
       };
     </script>
   </body>
