@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      #region-select {
+        position: absolute;
+        right: 330px;
+        top: 50px;
+        z-index: 99;
+      }
+      #goods-select {
+        position: absolute;
+        right: 250px;
+        top: 50px;
+        z-index: 99;
+      }
+      #table-wrapper {
+        margin: 50px auto;
+        height: 300px;
+        position: relative;
+      }
+      table {
+        text-align: center;
+        width: 1120px;
+        font-weight: initial;
+        border-collapse: collapse;
+      }
+      .table1 {
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+      .table2 {
+        position: absolute;
+        top: 100px;
+        left: 0;
+      }
+      thead {
+        height: 20px;
+      }
+      td,
+      th {
+        border-collapse: collapse;
+        border: 1px solid #ccc;
+        width: 80px;
+      }
+    </style>
+  </head>
+  <body>
+    <select id="region-select">
+      <option>华东</option>
+      <option>华南</option>
+      <option>华北</option>
+    </select>
+    <select id="goods-select">
+      <option>手机</option>
+      <option>笔记本</option>
+      <option>智能音箱</option>
+    </select>
+    <div id="table-wrapper">
+      <table class="table1"></table>
+      <table class="table2"></table>
+    </div>
+    <script src="./jquery-1.12.4.min.js"></script>
+    <script src="./sales.js"></script>
+  </body>
+</html>
