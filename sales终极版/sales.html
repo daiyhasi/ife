@@ -52,24 +52,35 @@
         border: 1px solid #ccc;
         width: 80px;
       }
+      input {
+        margin-right: 20px;
+      }
     </style>
   </head>
   <body>
-    <select id="region-select">
-      <option>华东</option>
-      <option>华南</option>
-      <option>华北</option>
-    </select>
-    <select id="goods-select">
-      <option>手机</option>
-      <option>笔记本</option>
-      <option>智能音箱</option>
-    </select>
+    <div class="region">
+      全选:<input type="checkbox" value="allRegion" id="allRegion" />
+      <span
+        >华东:<input type="checkbox" value="华东"/> 华南:<input
+          type="checkbox"
+          value="华南"/>
+        华北:<input type="checkbox" value="华北"
+      /></span>
+    </div>
+    <div class="goods">
+      全选:<input type="checkbox" value="allGoods" id="allGoods" />
+      <span
+        >手机:<input type="checkbox" value="手机"/> 笔记本:<input
+          type="checkbox"
+          value="笔记本"/>
+        智能音箱:<input type="checkbox" value="智能音箱"
+      /></span>
+    </div>
     <div id="table-wrapper">
       <table class="table1"></table>
-      <table class="table2"></table>
     </div>
     <script src="./jquery-1.12.4.min.js"></script>
     <script src="./sales.js"></script>
   </body>
 </html>
+

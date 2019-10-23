@@ -46,23 +46,6 @@ let sourceData = [
   }
 ];
 
-headRender($(".table1"));
-headRender($(".table2"));
-
-//选择并渲染
-let region, goods;
-$("#region-select").change(function() {
-  region = $(this).val();
-  goods = $("#goods-select").val();
-  render(region);
-});
-$("#goods-select").change(function() {
-  region = $("#region-select").val();
-  goods = $(this).val();
-  //   console.log(region, goods);
-  render(region, goods);
-});
-
 //表头渲染 +一个空的tbody
 function headRender(epTable) {
   let head = $("<thead></thead>");
@@ -76,38 +59,97 @@ function headRender(epTable) {
   html += "</tr>";
   head.html(html);
 }
+headRender($(".table1"));
 
-//数据渲染  tbody
-function render(region, goods) {
-  //   console.log(region, goods);
-  //   console.log(arguments.length);
-  if (arguments.length == 1) {
-    let tbody1 = $(".table1 tbody");
-    //   $("table").append(tbody);
-    let html = "";
-    for (let i = 0; i < sourceData.length; i++) {
-      if (sourceData[i].region == region) {
-        html += `<tr><td>${sourceData[i].product}</td><td>${sourceData[i].region}</td>`;
-        for (let j = 0; j < sourceData[i].sale.length; j++) {
-          html += `<td>${sourceData[i].sale[j]}</td>`;
-        }
-        html += `</tr>`;
-        tbody1.html(html);
-      }
-    }
+//
+//单全选控制
+function control(element) {
+  // console.log(element);
+  // console.log($("#allGoods"));
+  let inputs, checkedInput;
+  // console.log(element[0] == $("#allGoods")[0]);
+  if (element[0] == $("#allGoods")[0]) {
+    element == $("#allGoods");
+    inputs = $(".goods span input");
   } else {
-    let tbody2 = $(".table2 tbody");
-    let html = "";
-    for (let i = 0; i < sourceData.length; i++) {
-      if (sourceData[i].region == region && sourceData[i].product == goods) {
-        html = concat(html, i);
-        tbody2.html(html);
-      }
-    }
-    tbody2.html(html);
+    element == $("#allRegion");
+    inputs = $(".region span input");
   }
+  //全选控制单个
+  element.click(function() {
+    if ($(this).is(":checked")) {
+      inputs.prop("checked", true);
+    }
+  });
+  //单个控制全选
+  inputs.click(function() {
+    if (element[0] == $("#allGoods")[0]) {
+      checkedInput = $(".goods span input:checked");
+    } else {
+      checkedInput = $(".region span input:checked");
+    }
+    let checkedLen = checkedInput.length;
+    // console.log(checkedLen);
+    if (checkedLen == 3) {
+      element.prop("checked", true);
+    } else {
+      element.prop("checked", false);
+    }
+    if (checkedLen == 0) {
+      $(this).prop("checked", true);
+    }
+  });
 }
 
+control($("#allGoods"));
+control($("#allRegion"));
+//
+//
+$("#allGoods").on("click", function() {
+  // console.log(111);
+  render();
+});
+$(".goods span input").on("click", function() {
+  // console.log(111);
+  render();
+});
+//
+//数据渲染  tbody
+function render() {
+  let checkedInput = $(".goods span input:checked");
+  // console.log(checkedInput);
+  let html = "";
+  for (let i = 0; i < checkedInput.length; i++) {
+    let tmpVal = checkedInput[i].value;
+    // console.log(tmpVal);
+    html += renderItem(tmpVal);
+  }
+  $(".table1 tbody").html(html);
+  // console.log(html);
+}
+
+//
+//
+function renderItem(item) {
+  let tbody1 = $(".table1 tbody");
+  console.log(item);
+  let html = "";
+  for (let i = 0; i < sourceData.length; i++) {
+    if (sourceData[i].product == item) {
+      // console.log(333);
+      html += `<tr><td>${sourceData[i].product}</td><td>${sourceData[i].region}</td>`;
+      for (let j = 0; j < sourceData[i].sale.length; j++) {
+        html += `<td>${sourceData[i].sale[j]}</td>`;
+      }
+      html += `</tr>`;
+      // tbody1.html(html);
+    }
+  }
+  // console.log(html);
+  return html;
+}
+//
+//
 //单行tr字符串拼接
 function concat(html, i) {
   html = "";
